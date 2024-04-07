@@ -48,18 +48,23 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (OnNormal(other))
+        if (IsTouchNormal(other))
         {
             OnNormalFloor(other);
         }
-        else if (OnNails(other))
+        else if (IsTouchNails(other))
         {
             OnNailds(other);
         }
-        if (OnCelling(other))
+        if (IsTouchCelling(other))
         {
             TouchCelling(other);
         }
+    }
+
+    private bool IsTouchNails(Collision2D other)
+    {
+        return other.gameObject.tag is "Nails" && other.contacts[0].normal == Vector2.up;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -70,17 +75,12 @@ public class Player : MonoBehaviour
         }
     }
 
-    private bool OnCelling(Collision2D other)
+    private bool IsTouchCelling(Collision2D other)
     {
         return other.gameObject.tag is "Celling";
     }
 
-    private bool OnNails(Collision2D other)
-    {
-        return other.gameObject.tag is "Nails" && other.contacts[0].normal == Vector2.up;
-    }
-
-    private bool OnNormal(Collision2D other)
+    private bool IsTouchNormal(Collision2D other)
     {
         return other.gameObject.tag is "Normal" && other.contacts[0].normal == Vector2.up;
     }
